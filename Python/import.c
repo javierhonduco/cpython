@@ -1646,8 +1646,10 @@ import_find_and_load(PyObject *abs_name)
         accumulated = 0;
     }
 
-    if (PyDTrace_IMPORT_FIND_LOAD_START_ENABLED())
-        PyDTrace_IMPORT_FIND_LOAD_START(PyUnicode_AsUTF8(abs_name));
+    if (PyDTrace_IMPORT_FIND_LOAD_START_ENABLED()) {
+        PyFrameObject *f = _PyThreadState_GET()->frame;
+        PyDTrace_IMPORT_FIND_LOAD_START(PyUnicode_AsUTF8(abs_name), PyUnicode_AsUTF8(f->f_code->co_filename));
+    }
 
     mod = _PyObject_CallMethodIdObjArgs(interp->importlib,
                                         &PyId__find_and_load, abs_name,
