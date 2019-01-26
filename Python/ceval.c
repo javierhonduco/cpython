@@ -1112,6 +1112,9 @@ main_loop:
         }
 #endif
 
+        if (PyDTrace_OPCODE_TRACING_ENABLED()) {
+            PyDTrace_OPCODE_TRACING(opcode);
+        }
         switch (opcode) {
 
         /* BEWARE!
